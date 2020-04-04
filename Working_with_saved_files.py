@@ -8,7 +8,7 @@ import copy
 # -------------------------------------------------------------------------------------------------------
 op_dict = {'Робот': Robot(), 'Черепаха': Turtle(), 'Вычислитель': Calculator(), 'Чертежник': Blueprinter()}
 main = tkinter.Tk()
-canvas = tkinter.Canvas(height=800, width=800, bg='#006400')
+canvas = tkinter.Canvas(height=800, width=800, bg='white')
 
 
 # ---------------------------------------------------------------------------------------------------
@@ -38,6 +38,7 @@ def formatted_command(s):
 
 def function_argument(s):
     i = 0
+    print('Функция: ',s)
     while s[i] != '(':
         i += 1
     i += 1
@@ -117,7 +118,7 @@ def compiling_txt(file_name):
             f = True
         else:
             f = False
-            raise MySyntaxError('Синтаксическая ошибка в строке {}'.format(i + 1))
+            raise MySyntaxError('Синтаксическая ошибка {}'.format(t))
     if f:
         op = l[0]
         if op == 'Чертежник':
@@ -139,67 +140,59 @@ def core_alg(l, op):
 
     if isinstance(op, Blueprinter):
         coords()
-        crd = op.pos
-        pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='red')
+        crd = op.pos()
         i = 0
         while i < len(l):
             print(l[i])
             t = formatted_command(l[i])
             if t == 'сместись_в_точку':
                 args = complicated_argument(l[i])
-                point1 = copy.deepcopy(op.pos)
+                point1 = copy.deepcopy(op.pos())
                 op.moveto(args[0], args[1])
-                point2 = copy.deepcopy(op.pos)
+                point2 = copy.deepcopy(op.pos())
                 if op.f:
                     canvas.create_line(xs(point1[0]), ys(point1[1]), xs(point2[0]), ys(point2[1]), fill='blue')
-                canvas.delete(pos)
-                crd = op.pos
-                pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='red')
+                crd = op.pos()
 
             elif t == 'сместись_на_вектор':
                 args = complicated_argument(l[i])
-                point1 = copy.deepcopy(op.pos)
+                point1 = copy.deepcopy(op.pos())
                 op.vector_move(args[0], args[1])
-                point2 = copy.deepcopy(op.pos)
+                point2 = copy.deepcopy(op.pos())
                 if op.f:
                     canvas.create_line(xs(point1[0]), ys(point1[1]), xs(point2[0]), ys(point2[1]), fill='blue')
-                canvas.delete(pos)
-                crd = op.pos
-                pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='red')
+                crd = op.pos()
             elif t == 'подними_перо':
                 op.up()
             elif t == 'опусти_перо':
                 op.down()
             elif 'нц' in t:
                 cycle = cycle_body(l)
-                for j in range(int(t[2])):
+                for j in range(int(function_argument(l[i]))):
                     core_alg(cycle[1:], op)
                 i = int(cycle[0]) - 1
+            elif 'пока' in t:
+                cycle = cycle_body(l)
+
             i += 1
 
     elif isinstance(op, Turtle):
         i = 0
-        crd = op.pos
-        pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='black')
         while i < len(l):
             t = formatted_command(l[i])
             print(l[i])
             if t == 'вперед':
-                point1 = copy.deepcopy(op.pos)
+                point1 = copy.deepcopy(op.pos())
                 op.forward(function_argument(l[i]))
-                point2 = copy.deepcopy(op.pos)
+                point2 = copy.deepcopy(op.pos())
                 if op.f:
                     canvas.create_line(xs(point1[0]), ys(point1[1]), xs(point2[0]), ys(point2[1]))
-                canvas.delete(pos)
-                pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='black')
             elif t == 'назад':
                 point1 = copy.deepcopy(op.pos())
                 op.backwards(function_argument(l[i]))
                 point2 = copy.deepcopy(op.pos())
                 if op.f:
                     canvas.create_line(xs(point1[0]), ys(point1[1]), xs(point2[0]), ys(point2[1]))
-                canvas.delete(pos)
-                pos = canvas.create_oval(xs(crd[0] - 2), ys(crd[1] - 2), xs(crd[0] + 2), ys(crd[1] + 2), fill='black')
             elif t == 'вправо':
                 op.right(function_argument(l[i]))
             elif t == 'влево':
