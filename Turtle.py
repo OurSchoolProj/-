@@ -4,7 +4,7 @@ from math import pi, sin, cos
 class Turtle:
     def __init__(self):
         self.alpha = pi / 2
-        self.pos = [0, 0]
+        self.pos_ = [0, 0]
         self.f = True
         self.command_list = ['вперед', 'назад', 'вправо', 'влево', 'опусти_хвост', 'подними_хвост']
 
@@ -18,11 +18,11 @@ class Turtle:
 
     def forward(self, a):
         a = float(a)
-        self.pos = [self.pos[0] + a * cos(self.alpha), self.pos[1] + a * sin(self.alpha)]
+        self.pos_ = [self.pos_[0] + a * cos(self.alpha), self.pos_[1] + a * sin(self.alpha)]
 
     def backwards(self, a):
         a = float(a)
-        self.pos = [self.pos[0] - a * cos(self.alpha), self.pos[1] - a * sin(self.alpha)]
+        self.pos_ = [self.pos_[0] - a * cos(self.alpha), self.pos_[1] - a * sin(self.alpha)]
 
     def up(self):
         self.f = False
@@ -34,4 +34,4 @@ class Turtle:
         return self.f
 
     def pos(self):
-        return self.pos
+        return self.pos_
