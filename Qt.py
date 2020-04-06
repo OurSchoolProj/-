@@ -1,5 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+#Текст и статичные файлы
+texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений)']
+for i in range(1,4):
+    textik = open('text{}'.format(i),'r').readlines()
+    texts.append(''.join(textik))
+
+#Код
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -11,7 +18,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -35,10 +42,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -56,7 +63,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -80,10 +87,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -101,7 +108,7 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
@@ -125,10 +132,10 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(255, 98, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -153,19 +160,25 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap("../../.designer/backup/sch/icon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
+        MainWindow.setStyleSheet("background-color: rgb(255, 98, 0);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setGeometry(QtCore.QRect(0, 701, 1061, 151))
+        self.textBrowser.setStyleSheet("background-color: rgb(255, 163, 71);")
         self.textBrowser.setObjectName("textBrowser")
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(9, 9, 591, 651))
+        self.textEdit.setGeometry(QtCore.QRect(10, 10, 591, 671))
+        self.textEdit.setTabletTracking(False)
         self.textEdit.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.textEdit.setStyleSheet("background-color: rgb(255, 163, 71);\n"
+"color: rgb(0, 0, 0);")
         self.textEdit.setObjectName("textEdit")
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(640, 60, 391, 251))
+        self.listWidget.setGeometry(QtCore.QRect(650, 30, 391, 251))
         self.listWidget.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.listWidget.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.listWidget.setStyleSheet("background-color: rgb(255, 163, 71);")
         self.listWidget.setObjectName("listWidget")
         item = QtWidgets.QListWidgetItem()
         font = QtGui.QFont()
@@ -267,36 +280,41 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PandaScript"))
-        self.textBrowser.setHtml(_translate("MainWindow",
-                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                                            "p, li { white-space: pre-wrap; }\n"
-                                            "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">Output will be here</span></p>\n"
-                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
-        self.textEdit.setHtml(_translate("MainWindow",
-                                         "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-                                         "p, li { white-space: pre-wrap; }\n"
-                                         "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-                                         "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> <span style=\" font-size:20pt; font-weight:600;\">Code will be here</span></p>\n"
-                                         "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
+        self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">Output will be here</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
+        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> <span style=\" font-size:20pt; font-weight:600;\">Code will be here</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         item = self.listWidget.item(0)
         item.setText(_translate("MainWindow", "Вступление)"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(1)
-        item.setText(_translate("MainWindow", "Пример Кода №2"))
+        item.setText(_translate("MainWindow", "Примеры Кода"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(2)
         item.setText(_translate("MainWindow", "Документация: Черепаха"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(3)
         item.setText(_translate("MainWindow", "Документация: Чертежник"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(4)
-        item.setText(_translate("MainWindow", "Документиция: Вычислитель"))
+        item.setText(_translate("MainWindow", "Документация: Вычислитель"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(5)
         item.setText(_translate("MainWindow", "Документация: Файлик"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(6)
         item.setText(_translate("MainWindow", "Документация: Картиночка"))
+        self.listWidget.itemClicked.connect(self.openWindow)
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.menu.setTitle(_translate("MainWindow", "Файлы"))
         self.menu_2.setTitle(_translate("MainWindow", "Настройки"))
@@ -310,12 +328,26 @@ class Ui_MainWindow(object):
         self.action_6.setText(_translate("MainWindow", "Размер"))
         self.action_7.setText(_translate("MainWindow", "Цвет"))
         self.action_8.setText(_translate("MainWindow", "Размер окна"))
-        self.actionPandeMode.setText(_translate("MainWindow", "PandeMode"))
+        self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
+
+    def openWindow(self, item):                                  # +++
+        self.widget = QtWidgets.QWidget()
+        row = self.listWidget.row(item)
+        self.widget.setWindowTitle(f'{item.text()}')
+        self.widget.setGeometry(500, 100, 600, 800)
+        self.widget.setStyleSheet("background-color:white;")
+        self.lbl = QtWidgets.QTextBrowser()
+        self.lbl.setFontPointSize(20)
+        self.lbl.setGeometry(500, 100, 600, 800)
+        self.lbl.setText(texts[row])
+        self.vbox = QtWidgets.QVBoxLayout()
+        self.vbox.addWidget(self.lbl)
+        self.widget.setLayout(self.vbox)
+        self.widget.show()
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
