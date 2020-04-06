@@ -203,7 +203,9 @@ def core_alg(l, op):
                 i = int(cycle[0]) - 2
             i += 1
     elif isinstance(op, Calculator):
-        pass
+        i = 0
+        while i < len(l):
+            pass
 
 
 compiling_txt('sample_file.txt')
