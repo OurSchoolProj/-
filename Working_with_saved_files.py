@@ -1,4 +1,3 @@
-from Robot import Robot
 from Turtle import Turtle
 from Calculator import Calculator
 from Blueprinter import Blueprinter
@@ -6,7 +5,7 @@ import tkinter
 import copy
 
 # -------------------------------------------------------------------------------------------------------
-op_dict = {'Робот': Robot(), 'Черепаха': Turtle(), 'Вычислитель': Calculator(), 'Чертежник': Blueprinter()}
+op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(), 'Чертежник': Blueprinter()}
 main = tkinter.Tk()
 canvas = tkinter.Canvas(height=800, width=800, bg='white')
 
@@ -38,7 +37,6 @@ def formatted_command(s):
 
 def function_argument(s):
     i = 0
-    print('Функция: ',s)
     while s[i] != '(':
         i += 1
     i += 1
@@ -125,12 +123,10 @@ def compiling_txt(file_name):
             op = Blueprinter()
         elif op == 'Черепаха':
             op = Turtle()
-        elif op == 'Робот':
-            op = Robot()
         elif op == 'Вычислитель':
             op = Calculator()
         core_alg(l[1:], op)
-        if isinstance(op, Turtle) or isinstance(op, Blueprinter) or op == (op, Robot):
+        if isinstance(op, Turtle) or isinstance(op, Blueprinter):
             canvas.pack()
             main.mainloop()
 
@@ -143,7 +139,6 @@ def core_alg(l, op):
         crd = op.pos()
         i = 0
         while i < len(l):
-            print(l[i])
             t = formatted_command(l[i])
             if t == 'сместись_в_точку':
                 args = complicated_argument(l[i])
@@ -203,13 +198,11 @@ def core_alg(l, op):
                 op.down()
             elif 'нц' in t:
                 cycle = cycle_body(l)
-                for j in range(int(t[2])):
+                for j in range(int(function_argument(l[i]))):
                     core_alg(cycle[1:], op)
                 i = int(cycle[0]) - 2
             i += 1
     elif isinstance(op, Calculator):
-        pass
-    elif isinstance(op, Robot):
         pass
 
 
