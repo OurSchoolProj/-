@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
+from datetime import datetime
+
 #Текст и статичные файлы
 texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений)']
 for i in range(1,4):
@@ -245,7 +247,7 @@ class Ui_MainWindow(object):
         self.action_2.setObjectName("action_2")
         self.action_3 = QtWidgets.QAction(MainWindow)
         self.action_3.setObjectName("action_3")
-        self.action_3.triggered.connect(self.ent)
+        self.action_3.triggered.connect(self.saving)
         self.action_4 = QtWidgets.QAction(MainWindow)
         self.action_4.setCheckable(False)
         self.action_4.setObjectName("action_4")
@@ -344,18 +346,15 @@ class Ui_MainWindow(object):
         self.widget.show()
 
 
-    def ent(self):
-        mytext = self.textEdit.toPlainText()
-        mytext = mytext.replace('Code ','')
-        mytext = mytext.replace('will ','')
-        mytext = mytext.replace('be ','')
-        mytext = mytext.replace('here','')
-        print(mytext)
+    def saving(self):
+        mytext = self.textEdit.toPlainText().split('\n')
+        mytext.remove(' Code will be here')
+        mytext = '\n'.join(mytext)
         for i in range(1000):
             try:
-                file = open('somefile{}'.format(i), 'r')
+                file = open('{}-{}'.format(datetime.date(datetime.now()),i), 'r')
             except:
-                with open('somefile{}'.format(i), 'a') as f:
+                with open('{}-{}'.format(datetime.date(datetime.now()),i), 'a') as f:
                     f.write(mytext)
                 break
 
