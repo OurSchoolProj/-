@@ -10,6 +10,7 @@ class Calculator:
             self.value = a / b
             self.a = a
             self.b = b
+            self.command_list = ['дробь', '=']
 
     def __add__(self, other):
         t = Calculator(0, 1)
