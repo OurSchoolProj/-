@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import QFileDialog
 #Текст и статичные файлы
 texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений)']
 for i in range(1,4):
@@ -240,13 +240,12 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.action = QtWidgets.QAction(MainWindow)
-        self.action.setObjectName("action")
-        self.action_2 = QtWidgets.QAction(MainWindow)
+        self.action_2 = QtWidgets.QAction('Load',MainWindow)
         self.action_2.setCheckable(False)
         self.action_2.setObjectName("action_2")
         self.action_3 = QtWidgets.QAction(MainWindow)
         self.action_3.setObjectName("action_3")
+        self.action_3.triggered.connect(self.ent)
         self.action_4 = QtWidgets.QAction(MainWindow)
         self.action_4.setCheckable(False)
         self.action_4.setObjectName("action_4")
@@ -320,7 +319,6 @@ class Ui_MainWindow(object):
         self.menu_2.setTitle(_translate("MainWindow", "Настройки"))
         self.menu_4.setTitle(_translate("MainWindow", "Шрифт"))
         self.menu_3.setTitle(_translate("MainWindow", "Запустить программу"))
-        self.action.setText(_translate("MainWindow", "Открыть..."))
         self.action_2.setText(_translate("MainWindow", "Открыть..."))
         self.action_3.setText(_translate("MainWindow", "Сохранить"))
         self.action_4.setText(_translate("MainWindow", "Документация"))
@@ -345,6 +343,21 @@ class Ui_MainWindow(object):
         self.widget.setLayout(self.vbox)
         self.widget.show()
 
+
+    def ent(self):
+        mytext = self.textEdit.toPlainText()
+        mytext = mytext.replace('Code ','')
+        mytext = mytext.replace('will ','')
+        mytext = mytext.replace('be ','')
+        mytext = mytext.replace('here','')
+        print(mytext)
+        for i in range(1000):
+            try:
+                file = open('somefile{}'.format(i), 'r')
+            except:
+                with open('somefile{}'.format(i), 'a') as f:
+                    f.write(mytext)
+                break
 
 if __name__ == "__main__":
     import sys
