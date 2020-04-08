@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog,QWidget,QFontDialog
 from datetime import datetime
 
 #Текст и статичные файлы
@@ -10,7 +10,7 @@ for i in range(1,4):
 
 #Код
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -159,7 +159,7 @@ class Ui_MainWindow(object):
         MainWindow.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         MainWindow.setMouseTracking(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../.designer/backup/sch/icon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("/sch/icon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         MainWindow.setStyleSheet("background-color: rgb(255, 98, 0);")
@@ -176,6 +176,11 @@ class Ui_MainWindow(object):
         self.textEdit.setStyleSheet("background-color: rgb(255, 163, 71);\n"
 "color: rgb(0, 0, 0);")
         self.textEdit.setObjectName("textEdit")
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        self.textEdit.setFont(font)
+        self.textBrowser.setFont(font)
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(650, 30, 391, 251))
         self.listWidget.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -245,6 +250,7 @@ class Ui_MainWindow(object):
         self.action_2 = QtWidgets.QAction('Load',MainWindow)
         self.action_2.setCheckable(False)
         self.action_2.setObjectName("action_2")
+        self.action_2.triggered.connect(self.opening_file)
         self.action_3 = QtWidgets.QAction(MainWindow)
         self.action_3.setObjectName("action_3")
         self.action_3.triggered.connect(self.saving)
@@ -260,6 +266,9 @@ class Ui_MainWindow(object):
         self.action_7.setObjectName("action_7")
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
+        self.action_8.triggered.connect(self.font_choice)
+        self.action_9 = QtWidgets.QAction(MainWindow)
+        self.action_9.setObjectName("action_9")
         self.actionPandeMode = QtWidgets.QAction(MainWindow)
         self.actionPandeMode.setCheckable(True)
         self.actionPandeMode.setObjectName("actionPandeMode")
@@ -269,7 +278,8 @@ class Ui_MainWindow(object):
         self.menu_4.addAction(self.action_6)
         self.menu_4.addAction(self.action_7)
         self.menu_2.addAction(self.menu_4.menuAction())
-        self.menu_2.addAction(self.action_8)
+        self.menu_4.addAction(self.action_8)
+        self.menu_2.addAction(self.action_9)
         self.menu_2.addAction(self.actionPandeMode)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
@@ -281,18 +291,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PandaScript"))
-        self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">Output will be here</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"> <span style=\" font-size:20pt; font-weight:600;\">Code will be here</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:20pt; font-weight:600;\"><br /></p></body></html>"))
+        self.textBrowser.setHtml(_translate("MainWindow", "<span>Output will be here</span>"))
+        self.textEdit.setHtml(_translate("MainWindow", "<span>Code will be here</span>"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         item = self.listWidget.item(0)
@@ -327,7 +327,8 @@ class Ui_MainWindow(object):
         self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
         self.action_6.setText(_translate("MainWindow", "Размер"))
         self.action_7.setText(_translate("MainWindow", "Цвет"))
-        self.action_8.setText(_translate("MainWindow", "Размер окна"))
+        self.action_8.setText(_translate("MainWindow", "Тип"))
+        self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
 
     def openWindow(self, item):                                  # +++
@@ -348,7 +349,6 @@ class Ui_MainWindow(object):
 
     def saving(self):
         mytext = self.textEdit.toPlainText().split('\n')
-        mytext.remove(' Code will be here')
         mytext = '\n'.join(mytext)
         for i in range(1000):
             try:
@@ -357,6 +357,23 @@ class Ui_MainWindow(object):
                 with open('{}-{}'.format(datetime.date(datetime.now()),i), 'a') as f:
                     f.write(mytext)
                 break
+
+    def opening_file(self):
+        name = QFileDialog.getOpenFileName(self,'Open File')
+        file = open(name[0] ,'r')
+        with file:
+            text = file.read()
+            self.textEdit.setText(text)
+
+
+
+    def font_choice(self):
+        font,valid = QFontDialog.getFont()
+        if valid:
+            font.setPointSize(20)
+            font.setBold(True)
+            self.textEdit.setFont(font)
+            self.textBrowser.setFont(font)
 
 if __name__ == "__main__":
     import sys
