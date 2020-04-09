@@ -5,7 +5,7 @@ import sys
 
 #Текст и статичные файлы
 documentation = open('documentation','r').read()
-texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений)']
+texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений) Подробнее во вкладке "Документация" меню ФАЙЛЫ']
 for i in range(1,4):
     textik = open('text{}'.format(i),'r').readlines()
     texts.append(''.join(textik))
@@ -265,8 +265,6 @@ class Ui_MainWindow(QWidget):
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
         self.action_8.triggered.connect(self.font_choice)
-        self.action_9 = QtWidgets.QAction(MainWindow)
-        self.action_9.setObjectName("action_9")
         self.actionPandeMode = QtWidgets.QAction(MainWindow)
         self.actionPandeMode.setCheckable(True)
         self.actionPandeMode.setObjectName("actionPandeMode")
@@ -275,7 +273,6 @@ class Ui_MainWindow(QWidget):
         self.menu.addAction(self.action_4)
         self.menu_2.addAction(self.menu_4.menuAction())
         self.menu_4.addAction(self.action_8)
-        self.menu_2.addAction(self.action_9)
         self.menu_2.addAction(self.actionPandeMode)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
@@ -322,7 +319,6 @@ class Ui_MainWindow(QWidget):
         self.action_4.setText(_translate("MainWindow", "Документация"))
         self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
         self.action_8.setText(_translate("MainWindow", "Тип"))
-        self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
 
 
