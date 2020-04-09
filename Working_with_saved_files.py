@@ -7,7 +7,6 @@ import copy
 # -------------------------------------------------------------------------------------------------------
 op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0, 1), 'Чертежник': Blueprinter()}
 main = tkinter.Tk()
-canvas = tkinter.Canvas(height=800, width=800, bg='blue')
 variables = {}
 
 
@@ -100,16 +99,17 @@ def f(s):
     elif '/' in s:
         i2 = s.index('/')
     c = s[i2]
-    b = s[:i2]
-    d = s[i2 + 1:]
+    sp = s.split(c)
+    b = sp[0]
+    d = sp[1]
     res = 0
     try:
         b = variables[b]
-    except Exception:
+    except:
         b = int(b)
     try:
         d = variables[d]
-    except Exception:
+    except:
         d = int(d)
     if c == '+':
         res = b + d
@@ -131,8 +131,7 @@ def ys(y):
     return -y + 400
 
 
-def coords():
-    global canvas
+def coords(canvas):
     for i in range(1, 40):
         canvas.create_line(i * 20, 0, i * 20, 800, fill='white')
     for j in range(0, 820, 20):
@@ -143,6 +142,7 @@ def coords():
 
 # -------------------------------------------------------------------------------------------------------
 def compiling_txt(file_name):
+    canvas = tkinter.Canvas(height=800, width=800, bg='blue')
     file = open(file_name, 'rt', encoding='utf-8')
     l = file.readlines()
     for i in range(len(l)):
@@ -166,16 +166,16 @@ def compiling_txt(file_name):
             op = Turtle()
         elif op == 'Вычислитель':
             op = Calculator(0, 1)
-        core_alg(l[1:], op)
+        core_alg(l[1:], op, canvas)
         if isinstance(op, Turtle) or isinstance(op, Blueprinter):
             canvas.pack()
             main.mainloop()
 
 
-def core_alg(l, op):
-    global canvas, main
+def core_alg(l, op, canvas):
+    global main
     if isinstance(op, Blueprinter):
-        coords()
+        coords(canvas)
         crd = op.pos()
         i = 0
         while i < len(l):
@@ -206,10 +206,8 @@ def core_alg(l, op):
             elif 'нц' in t:
                 cycle = cycle_body(l)
                 for j in range(int(function_argument(l[i]))):
-                    core_alg(cycle[1:], op)
+                    core_alg(cycle[1:], op, canvas)
                 i = int(cycle[0]) - 1
-            elif 'пока' in t:
-                cycle = cycle_body(l)
 
             i += 1
 
@@ -241,7 +239,7 @@ def core_alg(l, op):
             elif 'нц' in t:
                 cycle = cycle_body(l)
                 for j in range(int(function_argument(l[i]))):
-                    core_alg(cycle[1:], op)
+                    core_alg(cycle[1:], op, canvas)
                 i = int(cycle[0]) - 2
             i += 1
     elif isinstance(op, Calculator):
@@ -275,3 +273,4 @@ def core_alg(l, op):
 
 
 compiling_txt('sample_file.txt')
+
