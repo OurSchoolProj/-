@@ -1,15 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog,QWidget,QFontDialog
 from datetime import datetime
+import sys
 
 #Текст и статичные файлы
+documentation = open('documentation','r').read()
 texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений)']
 for i in range(1,4):
     textik = open('text{}'.format(i),'r').readlines()
     texts.append(''.join(textik))
 
 #Код
-
 class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -253,17 +254,14 @@ class Ui_MainWindow(QWidget):
         self.action_2.triggered.connect(self.opening_file)
         self.action_3 = QtWidgets.QAction(MainWindow)
         self.action_3.setObjectName("action_3")
-        self.action_3.triggered.connect(self.saving)
+        self.action_3.triggered.connect(self.file_save)
         self.action_4 = QtWidgets.QAction(MainWindow)
         self.action_4.setCheckable(False)
         self.action_4.setObjectName("action_4")
+        self.action_4.triggered.connect(self.documentWindow)
         self.actionPandaMode = QtWidgets.QAction(MainWindow)
         self.actionPandaMode.setCheckable(True)
         self.actionPandaMode.setObjectName("actionPandaMode")
-        self.action_6 = QtWidgets.QAction(MainWindow)
-        self.action_6.setObjectName("action_6")
-        self.action_7 = QtWidgets.QAction(MainWindow)
-        self.action_7.setObjectName("action_7")
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
         self.action_8.triggered.connect(self.font_choice)
@@ -275,8 +273,6 @@ class Ui_MainWindow(QWidget):
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
         self.menu.addAction(self.action_4)
-        self.menu_4.addAction(self.action_6)
-        self.menu_4.addAction(self.action_7)
         self.menu_2.addAction(self.menu_4.menuAction())
         self.menu_4.addAction(self.action_8)
         self.menu_2.addAction(self.action_9)
@@ -325,46 +321,60 @@ class Ui_MainWindow(QWidget):
         self.action_3.setText(_translate("MainWindow", "Сохранить"))
         self.action_4.setText(_translate("MainWindow", "Документация"))
         self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
-        self.action_6.setText(_translate("MainWindow", "Размер"))
-        self.action_7.setText(_translate("MainWindow", "Цвет"))
         self.action_8.setText(_translate("MainWindow", "Тип"))
         self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
 
-    def openWindow(self, item):                                  # +++
+
+    def openWindow(self, item):
         self.widget = QtWidgets.QWidget()
         row = self.listWidget.row(item)
         self.widget.setWindowTitle(f'{item.text()}')
         self.widget.setGeometry(500, 100, 600, 800)
         self.widget.setStyleSheet("background-color:white;")
+
         self.lbl = QtWidgets.QTextBrowser()
         self.lbl.setFontPointSize(20)
         self.lbl.setGeometry(500, 100, 600, 800)
         self.lbl.setText(texts[row])
+
+        self.vbox = QtWidgets.QVBoxLayout()
+        self.vbox.addWidget(self.lbl)
+        self.widget.setLayout(self.vbox)
+        self.widget.show()
+
+    def documentWindow(self):
+        self.widget = QtWidgets.QWidget()
+        self.widget.setWindowTitle('Документация')
+        self.widget.setGeometry(500, 100, 600, 800)
+        self.widget.setStyleSheet("background-color:white;")
+        self.lbl = QtWidgets.QTextBrowser()
+        self.lbl.setFontPointSize(20)
+        self.lbl.setGeometry(500, 100, 600, 800)
+        self.lbl.setText(documentation)
         self.vbox = QtWidgets.QVBoxLayout()
         self.vbox.addWidget(self.lbl)
         self.widget.setLayout(self.vbox)
         self.widget.show()
 
 
-    def saving(self):
-        mytext = self.textEdit.toPlainText().split('\n')
-        mytext = '\n'.join(mytext)
-        for i in range(1000):
-            try:
-                file = open('{}-{}'.format(datetime.date(datetime.now()),i), 'r')
-            except:
-                with open('{}-{}'.format(datetime.date(datetime.now()),i), 'a') as f:
-                    f.write(mytext)
-                break
+    def file_save(self):
+        name = QFileDialog.getSaveFileName(self, 'Save File')
+        file = open(name[0], 'w')
+        text = self.textEdit.toPlainText()
+        file.write(text)
+        file.close()
+
 
     def opening_file(self):
         name = QFileDialog.getOpenFileName(self,'Open File')
         file = open(name[0] ,'r')
         with file:
-            text = file.read()
-            self.textEdit.setText(text)
-
+            try:
+                text = file.read()
+                self.textEdit.setText(text)
+            except:
+                self.textEdit.setText("Ага! баловаться решил и всякую бяку открывать вместо кода?) Не получится")
 
 
     def font_choice(self):
@@ -375,8 +385,14 @@ class Ui_MainWindow(QWidget):
             self.textEdit.setFont(font)
             self.textBrowser.setFont(font)
 
+
+    def font_color(self):
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.textBrowser.setFont(font)
+
+
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
