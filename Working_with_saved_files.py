@@ -90,17 +90,39 @@ def cycle_body(l):
 
 
 def f(s):
-    global variables
-    s1 = ''
-    for i in range(len(s)):
-        if s[i] in variables:
-            s1 += str(variables[s[i]])
-        else:
-            s1 += s[i]
-    return eval(s1)
+    i2 = 0
+    if '+' in s:
+        i2 = s.index('+')
+    elif '-' in s:
+        i2 = s.index('-')
+    elif '*' in s:
+        i2 = s.index('*')
+    elif '/' in s:
+        i2 = s.index('/')
+    c = s[i2]
+    b = s[:i2]
+    d = s[i2 + 1:]
+    res = 0
+    try:
+        b = variables[b]
+    except Exception:
+        b = int(b)
+    try:
+        d = variables[d]
+    except Exception:
+        d = int(d)
+    if c == '+':
+        res = b + d
+    elif c == '-':
+        res = b - d
+    elif c == '*':
+        res = b * d
+    elif c == '/':
+        res = b / d
+    return res
+    # -------------------------------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------------------------------
 def xs(x):
     return x + 400
 
@@ -253,4 +275,3 @@ def core_alg(l, op):
 
 
 compiling_txt('sample_file.txt')
-# print(complicated_argument('с=дробь(a, b)'))
