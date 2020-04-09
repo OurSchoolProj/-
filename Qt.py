@@ -1,16 +1,20 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog,QWidget,QFontDialog
+from PyQt5.QtWidgets import QFileDialog, QWidget, QFontDialog
 from datetime import datetime
+from Working_with_saved_files import *
 import sys
+import os
 
-#Текст и статичные файлы
-documentation = open('documentation','r').read()
-texts = ['Добро пожаловать на наше детище - PandaScript! Этот проект разработан в рамках учебного процесса и несет в себе обучающий характер. Команда разработчиков в лице Абгаряна Артура, Лазара Владислава и Павлова Евгения рады были трудится для вас. \n                    Немного о проекте: \n     Данный язык программирования был основан вышеупомянутой командой разработчиков, с целью расширить возможности уже ранее известного языка "Кумир" и создания новых исполнителей. Здесь вы можете изучить основы программирования, работы с файловой системой, обработка изображения и многое другое! Рады приветствовать вас, если будет желание помочь нам в усовершенствовании нашего проекта, мы открыты для предложений) Подробнее во вкладке "Документация" меню ФАЙЛЫ']
-for i in range(1,4):
-    textik = open('text{}'.format(i),'r').readlines()
+# Текст и статичные файлы
+start_cycle = 0
+documentation = open('documentation', 'r', encoding='UTF-8').read()
+texts = []
+for i in range(0, 4):
+    textik = open('text{}'.format(i), 'r', encoding='UTF-8').readlines()
     texts.append(''.join(textik))
 
-#Код
+
+# Код
 class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -160,7 +164,7 @@ class Ui_MainWindow(QWidget):
         MainWindow.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         MainWindow.setMouseTracking(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("/sch/icon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         MainWindow.setStyleSheet("background-color: rgb(255, 98, 0);")
@@ -175,7 +179,7 @@ class Ui_MainWindow(QWidget):
         self.textEdit.setTabletTracking(False)
         self.textEdit.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.textEdit.setStyleSheet("background-color: rgb(255, 163, 71);\n"
-"color: rgb(0, 0, 0);")
+                                    "color: rgb(0, 0, 0);")
         self.textEdit.setObjectName("textEdit")
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -248,7 +252,7 @@ class Ui_MainWindow(QWidget):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.action_2 = QtWidgets.QAction('Load',MainWindow)
+        self.action_2 = QtWidgets.QAction('Load', MainWindow)
         self.action_2.setCheckable(False)
         self.action_2.setObjectName("action_2")
         self.action_2.triggered.connect(self.opening_file)
@@ -259,20 +263,28 @@ class Ui_MainWindow(QWidget):
         self.action_4.setCheckable(False)
         self.action_4.setObjectName("action_4")
         self.action_4.triggered.connect(self.documentWindow)
+        self.action_5 = QtWidgets.QAction(MainWindow)
+        self.action_5.setCheckable(False)
+        self.action_5.setObjectName("action_5")
+        self.action_5.triggered.connect(self.start_program)
         self.actionPandaMode = QtWidgets.QAction(MainWindow)
         self.actionPandaMode.setCheckable(True)
         self.actionPandaMode.setObjectName("actionPandaMode")
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
         self.action_8.triggered.connect(self.font_choice)
+        self.action_9 = QtWidgets.QAction(MainWindow)
+        self.action_9.setObjectName("action_9")
         self.actionPandeMode = QtWidgets.QAction(MainWindow)
         self.actionPandeMode.setCheckable(True)
         self.actionPandeMode.setObjectName("actionPandeMode")
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
         self.menu.addAction(self.action_4)
+        self.menu_3.addAction(self.action_5)
         self.menu_2.addAction(self.menu_4.menuAction())
         self.menu_4.addAction(self.action_8)
+        self.menu_2.addAction(self.action_9)
         self.menu_2.addAction(self.actionPandeMode)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
@@ -317,10 +329,11 @@ class Ui_MainWindow(QWidget):
         self.action_2.setText(_translate("MainWindow", "Открыть..."))
         self.action_3.setText(_translate("MainWindow", "Сохранить"))
         self.action_4.setText(_translate("MainWindow", "Документация"))
+        self.action_5.setText(_translate("MainWindow", "Запустить"))
         self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
         self.action_8.setText(_translate("MainWindow", "Тип"))
+        self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
-
 
     def openWindow(self, item):
         self.widget = QtWidgets.QWidget()
@@ -353,34 +366,51 @@ class Ui_MainWindow(QWidget):
         self.widget.setLayout(self.vbox)
         self.widget.show()
 
-
     def file_save(self):
-        name = QFileDialog.getSaveFileName(self, 'Save File')
-        file = open(name[0], 'w')
+        try:
+            name = QFileDialog.getSaveFileName(self, 'Save File')
+            file = open(name[0], 'w')
+            text = self.textEdit.toPlainText()
+            file.write(text)
+            file.close()
+        except:
+            pass
+
+    def start_program(self):
+        file = open('programm', 'w')
         text = self.textEdit.toPlainText()
         file.write(text)
         file.close()
+        try:
+            compiling_txt('programm')
+        except:
+            pass
+        os.remove('programm')
+
+
+
 
 
     def opening_file(self):
-        name = QFileDialog.getOpenFileName(self,'Open File')
-        file = open(name[0] ,'r')
-        with file:
-            try:
-                text = file.read()
-                self.textEdit.setText(text)
-            except:
-                self.textEdit.setText("Ага! баловаться решил и всякую бяку открывать вместо кода?) Не получится")
-
+        try:
+            name = QFileDialog.getOpenFileName(self, 'Open File')
+            file = open(name[0], 'r')
+            with file:
+                try:
+                    text = file.read()
+                    self.textEdit.setText(text)
+                except:
+                    self.textEdit.setText("Ага! баловаться решил и всякую бяку открывать вместо кода?) Не получится")
+        except:
+            pass
 
     def font_choice(self):
-        font,valid = QFontDialog.getFont()
+        font, valid = QFontDialog.getFont()
         if valid:
             font.setPointSize(20)
             font.setBold(True)
             self.textEdit.setFont(font)
             self.textBrowser.setFont(font)
-
 
     def font_color(self):
         font = QtGui.QFont()
