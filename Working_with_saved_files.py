@@ -15,6 +15,7 @@ class MySyntaxError(SyntaxError):
     pass
 
 
+# ----------------------------------------------------------------------------------------------------
 def no_space_string(s):
     s1 = ''
     for i in range(len(s)):
@@ -99,17 +100,16 @@ def f(s):
     elif '/' in s:
         i2 = s.index('/')
     c = s[i2]
-    sp = s.split(c)
-    b = sp[0]
-    d = sp[1]
+    b = s[:i2]
+    d = s[i2 + 1:]
     res = 0
     try:
         b = variables[b]
-    except:
+    except Exception:
         b = int(b)
     try:
         d = variables[d]
-    except:
+    except Exception:
         d = int(d)
     if c == '+':
         res = b + d
@@ -120,6 +120,63 @@ def f(s):
     elif c == '/':
         res = b / d
     return res
+
+
+# --------------------------------------------------------------------------------------------------------
+
+
+def sign_split(s, sign):
+    balance = 0
+    f = False
+    i1 = 0
+    for i in range(len(s) - 1, -1, -1):
+        if s[i] == '(':
+            balance -= 1
+        if s[i] == ')':
+            balance += 1
+        if s[i] in sign and balance == 0:
+            i1 = i
+            f = True
+            break
+    if not f:
+        return [False, None, None, None]
+    else:
+        return [True, s[i1], s[:i1], s[i1 + 1:]]
+
+
+def expression(s):
+    l = sign_split(s, '+-')
+    if l[0]:
+        if l[1] == '+':
+            return expression(l[2]) + item(l[3])
+        elif l[1] == '-':
+            return expression(l[2]) - item(l[3])
+    else:
+        return item(s)
+
+
+def item(s):
+    l = sign_split(s, '*/')
+    if l[0]:
+        if l[1] == '/':
+            return expression(l[2]) / factor(l[3])
+        elif l[1] == '*':
+            return expression(l[2]) * factor(l[3])
+    else:
+        return factor(s)
+
+
+def factor(s):
+    if s[0] == '(':
+        return expression(s[1:len(s) - 1])
+    elif s[0] == '-':
+        return -1 * expression(s[1:])
+    else:
+        try:
+            return variables[s]
+        except Exception:
+            return int(s)
+
     # -------------------------------------------------------------------------------------------------------
 
 
@@ -246,6 +303,7 @@ def core_alg(l, op, canvas):
         i = 0
         while i < len(l):
             t = formatted_command(l[i])
+            l[i] = no_space_string(l[i])
             if t == 'вывод':
                 a = function_argument(l[i])
                 if a in variables:
@@ -267,10 +325,9 @@ def core_alg(l, op, canvas):
             elif '=' in t:
                 i1 = l[i].index('=')
                 l1 = l[i][i1 + 1:]
-                t1 = f(l1)
-                variables[l[i][0]] = t1
+                t1 = expression(l1)
+                variables[l[i][:i1]] = t1
             i += 1
 
 
 compiling_txt('sample_file.txt')
-
