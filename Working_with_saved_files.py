@@ -9,6 +9,7 @@ op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0,
 main = tkinter.Tk()
 variables = {}
 
+
 # ---------------------------------------------------------------------------------------------------
 class MySyntaxError(SyntaxError):
     pass
@@ -86,6 +87,20 @@ def cycle_body(l):
     else:
         return [False]
     return res
+
+
+def norm(a):
+    if isinstance(a, int):
+        return a
+    elif isinstance(a, Calculator):
+        a1 = Calculator(a.a, a.b)
+        for i in range(1, min(a1.a, a1.b) + 1):
+            if a1.a % i == 0 and a1.b % i == 0:
+                a1.a //= i
+                a1.b //= i
+        return a1
+    elif isinstance(a, str):
+        return a
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -166,6 +181,7 @@ def coords(canvas):
 # -------------------------------------------------------------------------------------------------------
 def compiling_txt(file_name):
     global output
+    flag = False
     output = open('output.txt', 'wt', encoding='utf-8')
     canvas = tkinter.Canvas(height=800, width=800, bg='blue')
     file = open(file_name, 'rt', encoding='utf-8')
@@ -174,15 +190,21 @@ def compiling_txt(file_name):
         if l[i][-1] == '\n':
             l[i] = l[i][:len(l[i]) - 1]
     operator = l[0]
+    if operator in op_dict:
+        flag = True
     f = False
-    for i in range(1, len(l)):
-        t = formatted_command(l[i])
-        if (t in op_dict[operator].command_list) or ('нц' in t) or ('пока' in t) or ('кц' in t) or ('=' in t) or (
-                'ввод' in t) or ('вывод' in t):
-            f = True
-        else:
-            f = False
-            raise MySyntaxError('Синтаксическая ошибка в строке {}: {}'.format(i + 1, t))
+    if flag:
+        for i in range(1, len(l)):
+            t = formatted_command(l[i])
+            if (t in op_dict[operator].command_list) or ('нц' in t) or ('пока' in t) or ('кц' in t) or ('=' in t) or (
+                    'ввод' in t) or ('вывод' in t):
+                f = True
+            else:
+                f = False
+                output.write('Синтаксическая ошибка в строке {}: {}'.format(i, t))
+    else:
+        f = False
+        output.write('Синтаксическая ошибка в строке 0: некорректный оператор')
     if f:
         op = l[0]
         if op == 'Чертежник':
@@ -195,6 +217,7 @@ def compiling_txt(file_name):
         if isinstance(op, Turtle) or isinstance(op, Blueprinter):
             canvas.pack()
             main.mainloop()
+    output.close()
 
 
 def core_alg(l, op, canvas):
@@ -275,9 +298,9 @@ def core_alg(l, op, canvas):
             if t == 'вывод':
                 a = function_argument(l[i])
                 if a in variables:
-                    output.write(str(variables[a]) + "\n")
+                    output.write(str(norm(variables[a])) + "\n")
                 else:
-                    output.write(str(expression(a)) + "\n")
+                    output.write(str(norm(expression(a))) + "\n")
             elif 'дробь' in t:
                 args = complicated_argument(l[i])
                 i1 = l[i].index('=')
@@ -298,6 +321,6 @@ def core_alg(l, op, canvas):
                     core_alg(cycle[1:], op, canvas)
                 i = int(cycle[0]) - 1
             i += 1
-    output.close()
 
-#compiling_txt("sample_file.txt")
+
+compiling_txt('sample_file.txt')
