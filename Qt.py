@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QWidget, QFontDialog
-from datetime import datetime
+from PyQt5.QtWidgets import QFileDialog, QWidget, QFontDialog,QLabel, QVBoxLayout
 from Working_with_saved_files import *
+from PyQt5.QtGui import QPixmap
 import sys
 import os
 
@@ -227,6 +227,11 @@ class Ui_MainWindow(QWidget):
         font.setPointSize(20)
         item.setFont(font)
         self.listWidget.addItem(item)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(640, 310, 401, 361))
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap("panda.jpg"))
+        self.label.setObjectName("label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1062, 27))
@@ -334,6 +339,7 @@ class Ui_MainWindow(QWidget):
         self.action_8.setText(_translate("MainWindow", "Тип"))
         self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
+
 
     def openWindow(self, item):
         self.widget = QtWidgets.QWidget()
