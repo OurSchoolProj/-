@@ -375,23 +375,31 @@ class Ui_MainWindow(QWidget):
     def file_save(self):
         try:
             name = QFileDialog.getSaveFileName(self, 'Save File')
-            file = open(name[0], 'w')
+            file = open(name[0], 'w', encoding='UTF-8')
             text = self.textEdit.toPlainText()
+            try:
+                text = text.replace('Code will be here\n','')
+            except:
+                pass
             file.write(text)
             file.close()
         except:
             pass
 
     def start_program(self):
-        file = open('programm', 'w')
+        file = open('programm', 'w', encoding='UTF-8')
         text = self.textEdit.toPlainText()
+        try:
+            text = text.replace('Code will be here\n', '')
+        except:
+            pass
         file.write(text)
         file.close()
         try:
             compiling_txt('programm')
         except:
             pass
-        file2 = open('output.txt', 'r')
+        file2 = open('output.txt', 'r', encoding='UTF-8')
         text2 = file2.read()
         self.textBrowser.setText(text2)
         file2.close()
@@ -403,7 +411,7 @@ class Ui_MainWindow(QWidget):
     def opening_file(self):
         try:
             name = QFileDialog.getOpenFileName(self, 'Open File')
-            file = open(name[0], 'r')
+            file = open(name[0], 'r', encoding='UTF-8')
             with file:
                 try:
                     text = file.read()
