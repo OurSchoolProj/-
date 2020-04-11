@@ -5,7 +5,7 @@ class MyZeroDivisionError(ZeroDivisionError):
 class Calculator:
     def __init__(self, a, b):
         if b == 0:
-            raise MyZeroDivisionError
+            raise MyZeroDivisionError('Нельзя делить на ноль')
         else:
             self.value = a / b
             self.a = a
@@ -66,8 +66,22 @@ class Calculator:
             t.value = t.a / t.b
         return t
 
+    def norm(self):
+        a1 = min(self.a, self.b)
+        for i in range(1, a1 + 1):
+            if self.a % i == 0 and self.b % i == 0:
+                self.a //= i
+                self.b //= i
+        return self
+
     def __str__(self):
         if self.a < 0 and self.b < 0:
             self.a *= (-1)
             self.b *= -1
-        return '{}/{}'.format(self.a, self.b)
+        self.norm()
+        if self.b == 1:
+            return str(self.a)
+        elif self.a == 0:
+            return '0'
+        else:
+            return '{}/{}'.format(self.a, self.b)
