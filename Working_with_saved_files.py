@@ -8,8 +8,6 @@ import copy
 op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0, 1), 'Чертежник': Blueprinter()}
 main = tkinter.Tk()
 variables = {}
-output = open('output.txt', 'wt', encoding='utf-8')
-
 
 # ---------------------------------------------------------------------------------------------------
 class MySyntaxError(SyntaxError):
@@ -168,6 +166,7 @@ def coords(canvas):
 # -------------------------------------------------------------------------------------------------------
 def compiling_txt(file_name):
     global output
+    output = open('output.txt', 'wt', encoding='utf-8')
     canvas = tkinter.Canvas(height=800, width=800, bg='blue')
     file = open(file_name, 'rt', encoding='utf-8')
     l = file.readlines()
@@ -276,9 +275,9 @@ def core_alg(l, op, canvas):
             if t == 'вывод':
                 a = function_argument(l[i])
                 if a in variables:
-                    print(variables[a], file=output)
+                    output.write(str(variables[a]) + "\n")
                 else:
-                    print(expression(a), file=output)
+                    output.write(str(expression(a)) + "\n")
             elif 'дробь' in t:
                 args = complicated_argument(l[i])
                 i1 = l[i].index('=')
@@ -299,3 +298,6 @@ def core_alg(l, op, canvas):
                     core_alg(cycle[1:], op, canvas)
                 i = int(cycle[0]) - 1
             i += 1
+    output.close()
+
+#compiling_txt("sample_file.txt")
