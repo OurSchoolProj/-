@@ -8,6 +8,7 @@ import copy
 op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0, 1), 'Чертежник': Blueprinter()}
 main = tkinter.Tk()
 variables = {}
+output = open('output.txt', 'wt', encoding='utf-8')
 
 
 # ---------------------------------------------------------------------------------------------------
@@ -89,39 +90,6 @@ def cycle_body(l):
     return res
 
 
-def f(s):
-    i2 = 0
-    if '+' in s:
-        i2 = s.index('+')
-    elif '-' in s:
-        i2 = s.index('-')
-    elif '*' in s:
-        i2 = s.index('*')
-    elif '/' in s:
-        i2 = s.index('/')
-    c = s[i2]
-    b = s[:i2]
-    d = s[i2 + 1:]
-    res = 0
-    try:
-        b = variables[b]
-    except Exception:
-        b = int(b)
-    try:
-        d = variables[d]
-    except Exception:
-        d = int(d)
-    if c == '+':
-        res = b + d
-    elif c == '-':
-        res = b - d
-    elif c == '*':
-        res = b * d
-    elif c == '/':
-        res = b / d
-    return res
-
-
 # --------------------------------------------------------------------------------------------------------
 
 
@@ -199,6 +167,7 @@ def coords(canvas):
 
 # -------------------------------------------------------------------------------------------------------
 def compiling_txt(file_name):
+    global output
     canvas = tkinter.Canvas(height=800, width=800, bg='blue')
     file = open(file_name, 'rt', encoding='utf-8')
     l = file.readlines()
@@ -230,7 +199,7 @@ def compiling_txt(file_name):
 
 
 def core_alg(l, op, canvas):
-    global main
+    global main, variables
     if isinstance(op, Blueprinter):
         coords(canvas)
         crd = op.pos()
@@ -307,12 +276,9 @@ def core_alg(l, op, canvas):
             if t == 'вывод':
                 a = function_argument(l[i])
                 if a in variables:
-                    print(variables[a])
+                    print(variables[a], file=output)
                 else:
-                    print(a)
-            elif t == 'ввод':
-                a = function_argument(l[i])
-                variables[a] = int(input())
+                    print(expression(a), file=output)
             elif 'дробь' in t:
                 args = complicated_argument(l[i])
                 i1 = l[i].index('=')
@@ -327,7 +293,9 @@ def core_alg(l, op, canvas):
                 l1 = l[i][i1 + 1:]
                 t1 = expression(l1)
                 variables[l[i][:i1]] = t1
+            elif 'нц' in t:
+                cycle = cycle_body(l)
+                for j in range(expression(function_argument(l[i]))):
+                    core_alg(cycle[1:], op, canvas)
+                i = int(cycle[0]) - 1
             i += 1
-
-
-compiling_txt('sample_file.txt')
