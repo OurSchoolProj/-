@@ -391,9 +391,12 @@ class Ui_MainWindow(QWidget):
             compiling_txt('programm')
         except:
             pass
+        file2 = open('output.txt', 'r')
+        text2 = file2.read()
+        self.textBrowser.setText(text2)
+        file2.close()
         os.remove('programm')
-
-
+        os.remove('output.txt')
 
 
 
