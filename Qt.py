@@ -6,7 +6,51 @@ import sys
 import os
 
 # Текст и статичные файлы
-start_cycle = 0
+style_textEdit = "background-color: rgb(255, 163, 71); color: rgb(0, 0, 0); border: 7px solid rgb(74, 35, 10)"
+style_action = """
+QMenu {
+    background-color: #ABABAB;   
+    border: 1px solid black;
+    margin: 2px;
+}
+QMenu::item {
+    background-color: transparent;
+}
+QMenu::item:selected { 
+    background-color: #654321;
+    color: rgb(255,255,255);
+}
+"""
+style_menu = """
+QMenuBar {
+    background-color: rgb(74, 35, 10)
+}
+QMenuBar::item {
+    spacing: 2px;           
+    padding: 2px 5px;
+    margin: 2px 5px;
+    background-color: rgb(74, 35, 10);
+    color: rgb(200,200,200);  
+    border-radius: 2px;
+}
+QMenuBar::item:selected {    
+    background-color: rgb(163, 108, 72);
+}
+QMenuBar::item:pressed {
+    background: rgb(163, 108, 72);
+}
+"""
+style_listwidg = """
+QListWidget {
+  background-color: rgb(255, 163, 71);
+  color: rgb(0, 0, 0);
+  border: 7px solid rgb(74, 35, 10)
+}
+
+QListWidget::item:selected {
+  background-color: rgb(163, 108, 72);
+}
+"""
 documentation = open('documentation', 'r', encoding='UTF-8').read()
 texts = []
 for i in range(0, 4):
@@ -19,7 +63,9 @@ class Ui_MainWindow(QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(1062, 912)
+        MainWindow.resize(1060, 910)
+        MainWindow.setMaximumSize(1060, 910)
+        MainWindow.setMinimumSize(1060, 910)
         MainWindow.setBaseSize(QtCore.QSize(0, 0))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
@@ -172,14 +218,13 @@ class Ui_MainWindow(QWidget):
         self.centralwidget.setObjectName("centralwidget")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.textBrowser.setGeometry(QtCore.QRect(0, 701, 1061, 151))
-        self.textBrowser.setStyleSheet("background-color: rgb(255, 163, 71);")
+        self.textBrowser.setStyleSheet(style_textEdit)
         self.textBrowser.setObjectName("textBrowser")
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
         self.textEdit.setGeometry(QtCore.QRect(10, 10, 591, 671))
         self.textEdit.setTabletTracking(False)
         self.textEdit.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.textEdit.setStyleSheet("background-color: rgb(255, 163, 71);\n"
-                                    "color: rgb(0, 0, 0);")
+        self.textEdit.setStyleSheet(style_textEdit)
         self.textEdit.setObjectName("textEdit")
         font = QtGui.QFont()
         font.setPointSize(20)
@@ -187,10 +232,10 @@ class Ui_MainWindow(QWidget):
         self.textEdit.setFont(font)
         self.textBrowser.setFont(font)
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(650, 30, 391, 251))
+        self.listWidget.setGeometry(QtCore.QRect(650-20, 30, 391+20, 251-13))
         self.listWidget.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.listWidget.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.listWidget.setStyleSheet("background-color: rgb(255, 163, 71);")
+        self.listWidget.setStyleSheet(style_listwidg)
         self.listWidget.setObjectName("listWidget")
         item = QtWidgets.QListWidgetItem()
         font = QtGui.QFont()
@@ -232,9 +277,11 @@ class Ui_MainWindow(QWidget):
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap("panda.jpg"))
         self.label.setObjectName("label")
+        self.label.setStyleSheet("border: 5px solid rgb(74, 35, 10)")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1062, 27))
+        self.menubar.setStyleSheet(style_menu)
         font = QtGui.QFont()
         font.setFamily("Minecraft Title Cyrillic")
         font.setBold(False)
@@ -246,13 +293,17 @@ class Ui_MainWindow(QWidget):
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.menu.setObjectName("menu")
+        self.menu.setStyleSheet(style_action)
         self.menu_2 = QtWidgets.QMenu(self.menubar)
         self.menu_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.menu_2.setObjectName("menu_2")
+        self.menu_2.setStyleSheet(style_action)
         self.menu_4 = QtWidgets.QMenu(self.menu_2)
         self.menu_4.setObjectName("menu_4")
+        self.menu_4.setStyleSheet(style_action)
         self.menu_3 = QtWidgets.QMenu(self.menubar)
         self.menu_3.setObjectName("menu_3")
+        self.menu_3.setStyleSheet(style_action)
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -278,8 +329,6 @@ class Ui_MainWindow(QWidget):
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
         self.action_8.triggered.connect(self.font_choice)
-        self.action_9 = QtWidgets.QAction(MainWindow)
-        self.action_9.setObjectName("action_9")
         self.actionPandeMode = QtWidgets.QAction(MainWindow)
         self.actionPandeMode.setCheckable(True)
         self.actionPandeMode.setObjectName("actionPandeMode")
@@ -289,7 +338,6 @@ class Ui_MainWindow(QWidget):
         self.menu_3.addAction(self.action_5)
         self.menu_2.addAction(self.menu_4.menuAction())
         self.menu_4.addAction(self.action_8)
-        self.menu_2.addAction(self.action_9)
         self.menu_2.addAction(self.actionPandeMode)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
@@ -337,7 +385,6 @@ class Ui_MainWindow(QWidget):
         self.action_5.setText(_translate("MainWindow", "Запустить"))
         self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
         self.action_8.setText(_translate("MainWindow", "Тип"))
-        self.action_9.setText(_translate("MainWindow", "Размер окна"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
 
 
