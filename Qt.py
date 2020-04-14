@@ -53,7 +53,7 @@ QListWidget::item:selected {
 """
 documentation = open('documentation', 'r', encoding='UTF-8').read()
 texts = []
-for i in range(0, 4):
+for i in range(0, 5):
     textik = open('text{}'.format(i), 'r', encoding='UTF-8').readlines()
     texts.append(''.join(textik))
 
