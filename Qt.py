@@ -1,11 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QWidget, QFontDialog,QLabel, QVBoxLayout
 from Working_with_saved_files import *
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMovie
 import sys
 import os
 
 # Текст и статичные файлы
+count = 1
 style_textEdit = "background-color: rgb(255, 163, 71); color: rgb(0, 0, 0); border: 7px solid rgb(74, 35, 10)"
 style_action = """
 QMenu {
@@ -323,15 +324,13 @@ class Ui_MainWindow(QWidget):
         self.action_5.setCheckable(False)
         self.action_5.setObjectName("action_5")
         self.action_5.triggered.connect(self.start_program)
-        self.actionPandaMode = QtWidgets.QAction(MainWindow)
-        self.actionPandaMode.setCheckable(True)
-        self.actionPandaMode.setObjectName("actionPandaMode")
         self.action_8 = QtWidgets.QAction(MainWindow)
         self.action_8.setObjectName("action_8")
         self.action_8.triggered.connect(self.font_choice)
         self.actionPandeMode = QtWidgets.QAction(MainWindow)
         self.actionPandeMode.setCheckable(True)
         self.actionPandeMode.setObjectName("actionPandeMode")
+        self.actionPandeMode.toggled.connect(self.panda_mode)
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
         self.menu.addAction(self.action_4)
@@ -383,7 +382,6 @@ class Ui_MainWindow(QWidget):
         self.action_3.setText(_translate("MainWindow", "Сохранить"))
         self.action_4.setText(_translate("MainWindow", "Документация"))
         self.action_5.setText(_translate("MainWindow", "Запустить"))
-        self.actionPandaMode.setText(_translate("MainWindow", "PandaMode"))
         self.action_8.setText(_translate("MainWindow", "Тип"))
         self.actionPandeMode.setText(_translate("MainWindow", "PandаMode"))
 
@@ -476,10 +474,15 @@ class Ui_MainWindow(QWidget):
             self.textEdit.setFont(font)
             self.textBrowser.setFont(font)
 
-    def font_color(self):
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.textBrowser.setFont(font)
+    def panda_mode(self):
+        global count
+        count += 1
+        if count%2 == 0:
+            self.gif = QMovie('resized.gif')
+            self.label.setMovie(self.gif)
+            self.gif.start()
+        else:
+            self.label.setPixmap(QtGui.QPixmap("panda.jpg"))
 
 
 if __name__ == "__main__":
