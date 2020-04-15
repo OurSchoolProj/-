@@ -350,9 +350,6 @@ def core_alg(l, op, canvas):
             if 'перейти_в_папку' in t:
                 name = function_argument(l[i])
                 print(op.cd(name), file=output)
-            if 'запустить_файл' in t:
-                name = function_argument(l[i])
-                print(op.open_file(name), file=output)
             if 'записать_файл' in t:
                 name = complicated_argument(l[i])
                 print(op.writefile(name[0],name[1]), file=output)
