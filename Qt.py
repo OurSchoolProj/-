@@ -6,6 +6,7 @@ import sys
 import os
 
 # Текст и статичные файлы
+os.chdir('/home/artur/Desktop/School_project/sch')
 count = 1
 style_textEdit = "background-color: rgb(255, 163, 71); color: rgb(0, 0, 0); border: 7px solid rgb(74, 35, 10)"
 style_action = """
@@ -432,6 +433,7 @@ class Ui_MainWindow(QWidget):
             pass
 
     def start_program(self):
+        os.chdir('/home/artur/Desktop/School_project/sch')
         file = open('programm', 'w', encoding='UTF-8')
         text = self.textEdit.toPlainText()
         try:
@@ -444,6 +446,7 @@ class Ui_MainWindow(QWidget):
             compiling_txt('programm')
         except:
             pass
+        os.chdir('/home/artur/Desktop/School_project/sch')
         file2 = open('output.txt', 'r', encoding='UTF-8')
         text2 = file2.read()
         self.textBrowser.setText(text2)
