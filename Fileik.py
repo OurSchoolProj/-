@@ -14,7 +14,7 @@ class NameError(BaseException):
 
 class Failik:
     def __init__(self):
-        self.command_list = ['переименовать','создать_папку','создать_файл','удалить_папку','удалить_файл','перейти_в_папку','записать_файл','запустить_файл']
+        self.command_list = ['переименовать','создать_папку','создать_файл','удалить_папку','удалить_файл','перейти_в_папку','записать_файл']
         self.user_name = getpass.getuser()
         if os.name == 'posix':
             homedir = os.path.expanduser("~")
@@ -108,23 +108,10 @@ class Failik:
         except NameError:
             return 'Это не папка, а файл, удаляйте его с помощью команды УДАЛИ_ФАЙЛ'
 
-    def open_file(self, name):
-        try:
-            if os.path.isfile(name):
-                os.startfile(name)
-                return 'Запуск файла {}'.format(name)
-            elif os.path.isdir(name):
-                raise NameError
-            else:
-                raise FileError
-        except FileError:
-            return 'Такого файла не существует или его нельзя запустить'
-        except NameError:
-            return 'Это не папка, а файл, ее нельзя запустить'
 
 
-#f = Failik()
+f = Failik()
 #print(f.cd('A/b/c'))
 # print(f.mkfile('text'))
 # print(f.writefile('text','Message'))
-#f.rmdir('A')
+f.open_file('а')
