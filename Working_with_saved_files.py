@@ -1,11 +1,12 @@
 from Turtle import Turtle
 from Calculator import Calculator
 from Blueprinter import Blueprinter
+from Fileik import Failik
 import tkinter
 import copy
-
+import os
 # -------------------------------------------------------------------------------------------------------
-op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0, 1), 'Чертежник': Blueprinter()}
+op_dict = {'Черепаха': Turtle(), 'Вычислитель': Calculator(0, 1), 'Чертежник': Blueprinter(), 'Файлик': Failik()}
 main = tkinter.Tk()
 variables = {}
 
@@ -180,6 +181,7 @@ def coords(canvas):
 
 # -------------------------------------------------------------------------------------------------------
 def compiling_txt(file_name):
+    os.chdir('/home/artur/Desktop/School_project/sch')
     global output
     flag = False
     output = open('output.txt', 'wt', encoding='utf-8')
@@ -201,6 +203,7 @@ def compiling_txt(file_name):
                 f = True
             else:
                 f = False
+                os.chdir('')
                 output.write('Синтаксическая ошибка в строке {}: {}'.format(i, t))
     else:
         f = False
@@ -213,6 +216,8 @@ def compiling_txt(file_name):
             op = Turtle()
         elif op == 'Вычислитель':
             op = Calculator(0, 1)
+        elif op == 'Файлик':
+            op = Failik()
         core_alg(l[1:], op, canvas)
         if isinstance(op, Turtle) or isinstance(op, Blueprinter):
             canvas.pack()
@@ -322,5 +327,39 @@ def core_alg(l, op, canvas):
                 i = int(cycle[0]) - 1
             i += 1
 
+    elif isinstance(op, Failik):
+        i = 0
+        while i < len(l):
+            t = formatted_command(l[i])
+            l[i] = no_space_string(l[i])
+            if 'переименовать' in t:
+                names = complicated_argument(l[i])
+                print(op.rename(names[0],names[1]), file=output)
+            if 'создать_папку' in t:
+                name = function_argument(l[i])
+                print(op.mkdir(name),file=output)
+            if 'создать_файл' in t:
+                name = function_argument(l[i])
+                print(op.mkfile(name), file=output)
+            if 'удалить_папку' in t:
+                name = function_argument(l[i])
+                print(op.rmdir(name),file=output)
+            if 'удалить_файл' in t:
+                name = function_argument(l[i])
+                print(op.rmfile(name), file=output)
+            if 'перейти_в_папку' in t:
+                name = function_argument(l[i])
+                print(op.cd(name), file=output)
+            if 'запустить_файл' in t:
+                name = function_argument(l[i])
+                print(op.open_file(name), file=output)
+            if 'записать_файл' in t:
+                name = complicated_argument(l[i])
+                print(op.writefile(name[0],name[1]), file=output)
 
-compiling_txt('sample_file.txt')
+            i+=1
+
+
+
+
+#compiling_txt('sample_file.txt')
