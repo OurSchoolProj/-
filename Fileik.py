@@ -111,7 +111,9 @@ class Failik:
 
 
 f = Failik()
-#print(f.cd('A/b/c'))
-# print(f.mkfile('text'))
-# print(f.writefile('text','Message'))
-f.open_file('а')
+f.mkdir('test')
+f.cd('test')
+print(os.getcwd())
+f.cd('..')
+print(os.getcwd())
+
