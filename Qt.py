@@ -55,7 +55,7 @@ QListWidget::item:selected {
 """
 documentation = open('documentation', 'r', encoding='UTF-8').read()
 texts = []
-for i in range(0, 5):
+for i in range(0, 6):
     textik = open('text{}'.format(i), 'r', encoding='UTF-8').readlines()
     texts.append(''.join(textik))
 
@@ -354,7 +354,7 @@ class Ui_MainWindow(QWidget):
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "Вступление)"))
+        item.setText(_translate("MainWindow", "Вступление"))
         self.listWidget.itemClicked.connect(self.openWindow)
         item = self.listWidget.item(1)
         item.setText(_translate("MainWindow", "Примеры Кода"))
